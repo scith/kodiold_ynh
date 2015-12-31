@@ -23,7 +23,7 @@ app=kodi
 	
 # Make app dir?
 	# Move userdata folder to yunohost.app
-
+	
 # MySQL?
 	# If your app use a MySQL database you can use these lines to bootstrap
 	# a database, an associated user and save the password in app settings
@@ -40,8 +40,7 @@ app=kodi
 	sudo yunohost service start kodi
 
 # Activate and forward the web interface
-	# Copy guisettings.xml or advancedsettings.xml
-	# Enable webserver and port
+	sudo cp ../conf/advancedsettings.xml /usr/share/kodi/userdata/advancedsettings.xml
 
 # Modify Nginx configuration file and copy it to Nginx conf directory
 	sed -i "s@YNH_WWW_PATH@$path@g" ../conf/nginx.conf

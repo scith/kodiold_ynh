@@ -1,0 +1,9 @@
+<advancedsettings>
+	<services>
+		<esallinterfaces>true</esallinterfaces>
+		<webserver>true</webserver>
+		<webserverport>8066</webserverport>
+		<webskin>webinterface.default</webskin>
+		<zeroconf>true</zeroconf>
+	</services>
+ </advancedsettings>
