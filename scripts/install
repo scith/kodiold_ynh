@@ -11,8 +11,8 @@ sudo yunohost app checkurl $domain$path -a $app \
 	|| (echo "Path not available: $domain$path" && exit 1)
 
 # Install Kodi
-	sudo echo "deb https://people.debian.org/~rbalint/ppa/xbmc-ffmpeg xbmc-ffmpeg-unstable/" >> /etc/apt/sources.list.d/kodi.list
-	sudo echo "deb http://http.debian.net/debian unstable main" >> /etc/apt/sources.list.d/kodi.list
+	sudo sh -c 'echo "deb https://people.debian.org/~rbalint/ppa/xbmc-ffmpeg xbmc-ffmpeg-unstable/" >> /etc/apt/sources.list.d/kodi.list'
+	sudo sh -c 'echo "deb http://http.debian.net/debian unstable main" >> /etc/apt/sources.list.d/kodi.list'
 	
 	sudo apt-get update
 	sudo apt-get install -y kodi
