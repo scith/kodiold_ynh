@@ -18,7 +18,7 @@ app=kodi
 # Delete userdata folder?
 	
 # Remove configuration files
-	#sudo rm -f /etc/nginx/conf.d/$domain.d/$app.conf
+	sudo rm -f /etc/nginx/conf.d/$domain.d/$app.conf
 
 # If a database is used, remove it
 	# root_pwd=$(sudo cat /etc/yunohost/mysql)

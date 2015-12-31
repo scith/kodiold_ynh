@@ -7,9 +7,15 @@ app=kodi
 	path=$2
 
 # Check domain/path availability
-sudo yunohost app checkurl $domain$path -a $app \
-	|| (echo "Path not available: $domain$path" && exit 1)
+	sudo yunohost app checkurl $domain$path -a $app \
+		|| (echo "Path not available: $domain$path" && exit 1)
 
+# Check port availability
+	sudo yunohost app checkport 8066
+	if [[ ! $? -eq 0 ]]; then
+	  exit 1
+	fi
+	
 # Install Kodi
 	sudo cp ../conf/kodi.list /etc/apt/sources.list.d/kodi.list
 	
@@ -39,8 +45,8 @@ sudo yunohost app checkurl $domain$path -a $app \
 	# Enable webserver and port
 
 # Modify Nginx configuration file and copy it to Nginx conf directory
-	#sed -i "s@YNH_WWW_PATH@$path@g" ../conf/nginx.conf
-	#sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
+	sed -i "s@YNH_WWW_PATH@$path@g" ../conf/nginx.conf
+	sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
 
 # Restart services
 	sudo service nginx reload

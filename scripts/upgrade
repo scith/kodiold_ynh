@@ -21,8 +21,8 @@ app=kodi
 	sudo yunohost service start kodi
 	
 # Modify Nginx configuration file and copy it to Nginx conf directory
-	#sed -i "s@YNH_WWW_PATH@$path@g" ../conf/nginx.conf
-	#sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
+	sed -i "s@YNH_WWW_PATH@$path@g" ../conf/nginx.conf
+	sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
 
 # Restart services
 	sudo service nginx reload

@@ -13,9 +13,9 @@ app=kodi
 # sudo mysql -u $app -p$db_pwd $app < $backup_dir/$app.dmp
 
 # Restore Nginx and YunoHost parameters
-	#sudo cp -a $backup_dir/yunohost/. /etc/yunohost/apps/$app
-	#domain=$(sudo yunohost app setting $app domain)
-	#sudo cp -a $backup_dir/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
+	sudo cp -a $backup_dir/yunohost/. /etc/yunohost/apps/$app
+	domain=$(sudo yunohost app setting $app domain)
+	sudo cp -a $backup_dir/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
 
 # Restart webserver
 	sudo service nginx reload
