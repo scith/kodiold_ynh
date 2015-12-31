@@ -7,7 +7,7 @@ app=kodi
 	path=$(sudo yunohost app setting $app path)
 
 # Upgrade Kodi
-	sudo cp ../conf/kodi.list /etc/apt/sources.list.d/kodi.list
+	#sudo cp ../conf/kodi.list /etc/apt/sources.list.d/kodi.list
 	
 	sudo yunohost service stop kodi
 	sudo apt-get update
