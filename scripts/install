@@ -11,8 +11,7 @@ sudo yunohost app checkurl $domain$path -a $app \
 	|| (echo "Path not available: $domain$path" && exit 1)
 
 # Install Kodi
-	sudo sh -c 'echo "deb https://people.debian.org/~rbalint/ppa/xbmc-ffmpeg xbmc-ffmpeg-unstable/" >> /etc/apt/sources.list.d/kodi.list'
-	sudo sh -c 'echo "deb http://http.debian.net/debian unstable main" >> /etc/apt/sources.list.d/kodi.list'
+	sudo cp ../conf/kodi.list /etc/apt/sources.list.d/kodi.list
 	
 	sudo apt-get update
 	sudo apt-get install -y kodi
@@ -28,7 +27,9 @@ sudo yunohost app checkurl $domain$path -a $app \
 	# sudo yunohost app setting $app mysqlpwd -v $db_pwd
 
 # Activate service and start on boot
-	sudo cp ../sources/kodi.service /etc/systemd/system/kodi.service
+	sudo cp ../conf/kodi.service /etc/systemd/system/kodi.service
+	sudo cp ../conf/kodi.init /etc/init.d/kodi
+	sudo chmod a+x /etc/init.d/kodi
 	sudo yunohost service add kodi --log /var/log/kodi.log
 	sudo yunohost service enable kodi
 	sudo yunohost service start kodi

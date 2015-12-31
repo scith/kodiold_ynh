@@ -10,6 +10,7 @@ app=kodi
 	sudo yunohost service disable kodi
 	sudo yunohost service remove kodi
 	sudo rm /etc/systemd/system/kodi.service
+	sudo rm /etc/init.d/kodi
 	
 # Uninstall Kodi
 	sudo apt-get remove -y kodi
