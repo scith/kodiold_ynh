@@ -1,0 +1,39 @@
+{
+    "name": "Kodi",
+    "id": "kodi",
+    "description": {
+        "en": "Kodi is a media centre software for playing videos, music, pictures and more on your TV.",
+        "fr": "Kodi est un media centre permettant de lire vos vidéos, musiques et autres sur votre télévision."
+    },
+    "license": "free",
+    "maintainer": {
+        "name": "Scith"
+    },
+    "multi_instance": "false",
+    "services": [
+        "nginx",
+        "php5-fpm",
+        "mysql"
+    ],
+    "arguments": {
+        "install" : [
+            {
+                "name": "domain",
+                "ask": {
+                    "en": "Choose a domain for the Kodi web interface",
+                    "fr": "Choisissez un domaine pour l'interface web de Kodi"
+                },
+                "example": "example.com"
+            },
+            {
+                "name": "path",
+                "ask": {
+                    "en": "Choose a path for the Kodi web interface",
+                    "fr": "Choisissez un chemin pour l'interface web de Kodi"
+                },
+                "example": "/kodi",
+                "default": "/kodi"
+            }
+        ]
+    }
+}

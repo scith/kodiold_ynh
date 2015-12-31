@@ -1,0 +1,46 @@
+#!/bin/bash
+set -e
+app=kodi
+
+# Retrieve arguments
+	domain=$1
+	path=$2
+
+# Check domain/path availability
+sudo yunohost app checkurl $domain$path -a $app \
+	|| (echo "Path not available: $domain$path" && exit 1)
+
+# Install Kodi
+	sudo sh -c 'echo "deb https://people.debian.org/~rbalint/ppa/xbmc-ffmpeg xbmc-ffmpeg-unstable/ ./" > /etc/apt/sources.list.d/kodi.list'
+	sudo sh -c 'echo "deb http://http.debian.net/debian unstable main ./" > /etc/apt/sources.list.d/kodi.list'
+	
+	sudo apt-get update
+	sudo apt-get install -y kodi
+	
+# Make app dir?
+	# Move userdata folder to yunohost.app
+
+# MySQL?
+	# If your app use a MySQL database you can use these lines to bootstrap
+	# a database, an associated user and save the password in app settings
+	# db_pwd=$(openssl rand -hex 15)
+	# sudo yunohost app initdb $app -p $db_pwd
+	# sudo yunohost app setting $app mysqlpwd -v $db_pwd
+
+# Activate service and start on boot
+	sudo cp ../sources/kodi.service /etc/systemd/system/kodi.service
+	sudo yunohost service add kodi --log /var/log/kodi.log
+	sudo yunohost service enable kodi
+	sudo yunohost service start kodi
+
+# Activate and forward the web interface
+	# Copy guisettings.xml or advancedsettings.xml
+	# Enable webserver and port
+
+# Modify Nginx configuration file and copy it to Nginx conf directory
+	#sed -i "s@YNH_WWW_PATH@$path@g" ../conf/nginx.conf
+	#sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
+
+# Restart services
+	sudo service nginx reload
+	sudo yunohost app ssowatconf
