@@ -1,3 +1,5 @@
+This app **is not working at the moment**
+
 # Kodi for YunoHost #
 Kodi is a media centre software for playing videos, music, pictures and more.
 ![Kodi](https://lh3.googleusercontent.com/X_cP9NcXW4NoEf9lYuXzkRdjRT5M17SSgdFnd6hVL0WZ9suQDXbJakZbqysjaRFc1HU=h900)
