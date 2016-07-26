@@ -22,7 +22,7 @@ app=kodi
 # Reinstall kodi
 	sudo cp -a ./conf/${app}.list "/etc/apt/sources.list.d/${app}.list"
 	ynh_package_update
-	ynh_package_install kodi
+	sudo apt-get install -y -qq --force-yes kodi
 
 # Restore service
 	sudo cp -a ./conf/${app}.service "/etc/systemd/system/${app}.service"

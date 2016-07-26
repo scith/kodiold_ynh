@@ -22,7 +22,7 @@ app=kodi
 # Install Kodi
 	sudo cp ../conf/kodi.list /etc/apt/sources.list.d/${app}.list
 	ynh_package_update
-	ynh_package_install kodi
+	sudo apt-get install -y -qq --force-yes kodi
 	
 # Make app dir?
 	# Move userdata folder to yunohost.app
