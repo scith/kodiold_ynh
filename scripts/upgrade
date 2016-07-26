@@ -13,7 +13,6 @@ app=kodi
 	sudo cp ../conf/kodi.list /etc/apt/sources.list.d/${app}.list
 	sudo yunohost service stop kodi
 	ynh_package_update
-	ynh_package_install deb-multimedia-keyring
 	ynh_package_install kodi
 	
 # Kodi service

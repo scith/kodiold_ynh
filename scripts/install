@@ -22,7 +22,6 @@ app=kodi
 # Install Kodi
 	sudo cp ../conf/kodi.list /etc/apt/sources.list.d/${app}.list
 	ynh_package_update
-	ynh_package_install deb-multimedia-keyring
 	ynh_package_install kodi
 	
 # Make app dir?
@@ -61,7 +60,7 @@ app=kodi
 			sudo yunohost service remove $app
 			sudo rm /etc/systemd/system/$app.service
 		# Uninstall Kodi
-			ynh_package_remove deb-multimedia-keyring kodi
+			ynh_package_remove kodi
 			sudo rm /etc/apt/sources.list.d/${app}.list
 		# Remove DB
 			#ynh_mysql_drop_db "$dbname" 2>/dev/null || true
