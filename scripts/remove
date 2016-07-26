@@ -1,29 +1,31 @@
 #!/bin/bash
+set -e
 app=kodi
 
+# Source app helpers
+	source /usr/share/yunohost/helpers
+
 # Retrieve arguments
-	domain=$(sudo yunohost app setting $app domain)
-	path=$(sudo yunohost app setting $app path)
+	domain=$(ynh_app_setting_get "$app" domain)
+	path=$(ynh_app_setting_get "$app" path)
 
 # Remove service
-	sudo yunohost service stop kodi
-	sudo yunohost service disable kodi
-	sudo yunohost service remove kodi
-	sudo rm /etc/systemd/system/kodi.service
-	sudo rm /etc/init.d/kodi
+	sudo yunohost service stop $app
+	sudo yunohost service disable $app
+	sudo yunohost service remove $app
+	sudo rm /etc/systemd/system/$app.service
 	
 # Uninstall Kodi
-	sudo apt-get remove -y kodi
+	ynh_package_remove kodi
 
 # Delete userdata folder?
 	
 # Remove configuration files
-	sudo rm -f /etc/nginx/conf.d/$domain.d/$app.conf
+	sudo rm -f "/etc/nginx/conf.d/${domain}.d/${app}.conf"
 
 # If a database is used, remove it
-	# root_pwd=$(sudo cat /etc/yunohost/mysql)
-	# mysql -u root -p$root_pwd -e "DROP DATABASE $app ; DROP USER $app@localhost ;"
+	#ynh_mysql_drop_db "$dbname" 2>/dev/null || true
+	#ynh_mysql_drop_user "$dbuser" 2>/dev/null || true
 
 # Restart services
-	sudo service nginx reload
-	sudo yunohost app ssowatconf
+	sudo service nginx reload || true

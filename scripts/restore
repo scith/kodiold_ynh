@@ -2,20 +2,45 @@
 set -e
 app=kodi
 
-# The parameter $1 is the uncompressed restore directory location
-	backup_dir=$1/apps/$app
+# Source app helpers
+	source /usr/share/yunohost/helpers
+	
+# Retrieve arguments
+	domain=$(ynh_app_setting_get "$app" domain)
+	path=$(ynh_app_setting_get "$app" path)
+	
+# Check domain/path availability
+	sudo yunohost app checkurl $domain$path -a ${app} \
+	|| (echo "Path not available: $domain$path" && exit 1)
+	
+# Check port availability
+	sudo yunohost app checkport 8066
+	if [[ ! $? -eq 0 ]]; then
+	  exit 1
+	fi
+	
+# Reinstall kodi
+	sudo cp -a ./conf/${app}.list "/etc/apt/sources.list.d/${app}.list"
+	ynh_package_update
+	ynh_package_install kodi
 
-# Restore sources & data
-#sudo cp -a $backup_dir/sources/. /var/www/$app
+# Restore service
+	sudo cp -a ./conf/${app}.service "/etc/systemd/system/${app}.service"
+	sudo yunohost service add $app --log /var/log/$app.log
+	sudo yunohost service enable $app
+	sudo yunohost service start $app
+
+# Restore web interface
+	sudo cp -a ./conf/advancedsettings.xml "/usr/share/kodi/userdata/advancedsettings.xml"
+
+# Restore Nginx
+	sudo cp -a ./conf/nginx.conf "/etc/nginx/conf.d/${domain}.d/${app}.conf"
 
 # Restore mysql database if needed
-# db_pwd=$(sudo yunohost app setting $app mysqlpwd)
-# sudo mysql -u $app -p$db_pwd $app < $backup_dir/$app.dmp
-
-# Restore Nginx and YunoHost parameters
-	sudo cp -a $backup_dir/yunohost/. /etc/yunohost/apps/$app
-	domain=$(sudo yunohost app setting $app domain)
-	sudo cp -a $backup_dir/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
+	# ynh_mysql_create_db "$dbname" "$dbuser" "$dbpass"
+	# ynh_mysql_connect_as "$dbuser" "$dbpass" "$dbname" < ./db.sql
+	
+# Restore user files: TBD
 
 # Restart webserver
-	sudo service nginx reload
+	sudo service nginx reload || true

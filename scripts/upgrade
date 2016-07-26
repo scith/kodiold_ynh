@@ -2,29 +2,31 @@
 set -e
 app=kodi
 
+# Source app helpers
+	source /usr/share/yunohost/helpers
+
 # Retrieve arguments
-	domain=$(sudo yunohost app setting $app domain)
-	path=$(sudo yunohost app setting $app path)
+	domain=$(ynh_app_setting_get "$app" domain)
+	path=$(ynh_app_setting_get "$app" path)
 
 # Upgrade Kodi
-	#sudo cp ../conf/kodi.list /etc/apt/sources.list.d/kodi.list
-	
+	sudo cp ../conf/kodi.list /etc/apt/sources.list.d/${app}.list
 	sudo yunohost service stop kodi
-	sudo apt-get update
-	sudo apt-get install -y kodi
+	ynh_package_update
+	ynh_package_install kodi
 	
-	sudo cp ../conf/kodi.service /etc/systemd/system/kodi.service
-	sudo cp ../conf/kodi.init /etc/init.d/kodi
-	sudo chmod a+x /etc/init.d/kodi
-	sudo yunohost service add kodi --log /var/log/kodi.log
-	sudo yunohost service enable kodi
-	sudo yunohost service start kodi
+# Kodi service
+	sudo cp ../conf/kodi.service /etc/systemd/system/${app}.service
+	sudo yunohost service add $app --log /var/log/$app.log
+	sudo yunohost service enable $app
+	sudo yunohost service start $app
 	
+# Activate and forward the web interface
+	sudo cp ../conf/advancedsettings.xml /usr/share/kodi/userdata/advancedsettings.xml
+
 # Modify Nginx configuration file and copy it to Nginx conf directory
 	sed -i "s@YNH_WWW_PATH@$path@g" ../conf/nginx.conf
-	sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/$app.conf
+	sudo cp ../conf/nginx.conf /etc/nginx/conf.d/${domain}.d/${app}.conf
 
 # Restart services
-	sudo service nginx reload
-	sudo yunohost app ssowatconf
-
+	sudo service nginx reload || true
